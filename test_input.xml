@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<WoodyIN2IT app_name="IN2IT social" app_version="3.4.5.145" process_name="notification" process_version="1.0.158">
+  <workflow>
+    <id>036d4924-74f2-438d-912f-88553764edd2</id>
+    <state>DONETHIS?</state>
+    <message>Workflow done</message>
+    <creationDate_ms>1665577576823</creationDate_ms>
+    <lastUpdate_ms>1665577598519</lastUpdate_ms>
+    <user>
+      <name>rob.lang</name>
+      <email/>
+      <id/>
+    </user>
+    <job>
+      <pool>default</pool>
+      <priority>2</priority>
+      <profileName>Reuters</profileName>
+      <profileId>6c32cf4f-792b-4445-99ff-f75f5d62633b</profileId>
+      <origin>social-plugin</origin>
+      <jobType>avprocess</jobType>
+      <processwhilegrowing>false</processwhilegrowing>
+      <waitForSources>false</waitForSources>
+    </job>
+  </workflow>
+  <sources>
+    <source id="2c0866a4-2305-42e5-b852-15bcc67dfc8f" name="Ryan Jackson - “I’m genuinely unclear.”  She can say that again. #PMQs [1580154271902748672].mp4" uri="https://twitter.com/RyanBJackson/status/1580154271902748672">
+      <id>2c0866a4-2305-42e5-b852-15bcc67dfc8f</id>
+      <name>Ryan Jackson - “I’m genuinely unclear.”  She can say that again. #PMQs [1580154271902748672].mp4</name>
+      <uri>https://twitter.com/RyanBJackson/status/1580154271902748672</uri>
+      <creationDate/>
+      <provider>smb</provider>
+      <assetType>http asset</assetType>
+      <mediaType>clip</mediaType>
+      <media>
+        <umid>060A2B340101010501010D8013-000000-C754C45188599383-793AAC82FF7F-2372</umid>
+        <uri>https://twitter.com/RyanBJackson/status/1580154271902748672</uri>
+        <publicurl/>
+        <creationDate/>
+        <provider>smb</provider>
+        <connector/>
+        <content>audio video</content>
+        <container>MP4</container>
+        <wrappingMode>clip</wrappingMode>
+        <tracks>V-A2</tracks>
+        <format/>
+        <frameRate>60000/1001</frameRate>
+        <start/>
+        <recrunStart/>
+        <freerunStart>11;11;29;49</freerunStart>
+        <duration_frames>676</duration_frames>
+        <streams>
+          <stream type="picture">
+            <segments>
+              <segment>
+                <url>C:/WoodyTempFolder/jobs/step_036d4924-74f2-438d-912f-88553764edd2_3beb899e-3b0b-4735-963e-f867dd3d54bf/816976b5-c1f6-4b5b-9d3d-2851b664b1f8.mp4</url>
+                <streamIndex>0</streamIndex>
+                <start_s>0</start_s>
+                <duration_s>11.277944611277945</duration_s>
+                <essence>
+                  <codec>H264</codec>
+                  <profile>High@L4</profile>
+                  <gopStructure>Inter</gopStructure>
+                  <frameRateMode>Variable</frameRateMode>
+                  <frameRate>60000/1001</frameRate>
+                  <scanning>prog</scanning>
+                  <width>1280</width>
+                  <height>720</height>
+                  <aspectRatio>16:9</aspectRatio>
+                  <colorSpace>YUVJ</colorSpace>
+                  <chromaSubsampling>4:2:0</chromaSubsampling>
+                  <bitDepth>8</bitDepth>
+                  <colorRange>Full</colorRange>
+                  <stream_fieldorder>progressive</stream_fieldorder>
+                  <reversedScanning>false</reversedScanning>
+                </essence>
+              </segment>
+            </segments>
+          </stream>
+          <stream type="sound">
+            <segments>
+              <segment>
+                <url>C:/WoodyTempFolder/jobs/step_036d4924-74f2-438d-912f-88553764edd2_3beb899e-3b0b-4735-963e-f867dd3d54bf/816976b5-c1f6-4b5b-9d3d-2851b664b1f8.mp4</url>
+                <streamIndex>1</streamIndex>
+                <start_s>0</start_s>
+                <duration_s>11.277944611277945</duration_s>
+                <essence>
+                  <codec>AAC</codec>
+                  <samplingRate>44100</samplingRate>
+                  <channels>2</channels>
+                </essence>
+              </segment>
+            </segments>
+          </stream>
+        </streams>
+      </media>
+      <metadatas>
+        <metadata id="source_id" name="source id" type="">
+          <value>2c0866a4-2305-42e5-b852-15bcc67dfc8f</value>
+        </metadata>
+        <metadata id="social_author" name="Author" type="">
+          <value>Ryan Jackson</value>
+        </metadata>
+        <metadata id="social_source_uri" name="Source URI" type="">
+          <value>https://twitter.com/RyanBJackson/status/1580154271902748672</value>
+        </metadata>
+        <metadata id="social_network" name="Network" type="">
+          <value>twitter</value>
+        </metadata>
+        <metadata id="social_description" name="Description" type="">
+          <value>“I’m genuinely unclear.”  She can say that again. #PMQs https://t.co/3mx5y3S1Vu</value>
+        </metadata>
+        <metadata id="social_thumbnail" name="Social__Thumbnail" type="">
+          <value>https://pbs.twimg.com/ext_tw_video_thumb/1580154227686608897/pu/img/BEBL4aiI68MZTsUa.jpg?name=orig</value>
+        </metadata>
+        <metadata id="usermetadata_text_3cdbb29e-eeae-4c2d-b7da-cc594752a719" name="Story" type="">
+          <value>test 2 - plugin</value>
+        </metadata>
+        <metadata id="mm_source_index" name="Source__Index" type="text">
+          <value>0</value>
+        </metadata>
+        <metadata id="mm_source_name" name="Source__Name" type="text">
+          <value>Ryan Jackson - “I’m genuinely unclear.”  She can say that again. #PMQs [1580154271902748672].mp4</value>
+        </metadata>
+        <metadata id="mm_source_basename" name="Source__Basename" type="text">
+          <value>Ryan Jackson - “I’m genuinely unclear.”  She can say that again. #PMQs [1580154271902748672]</value>
+        </metadata>
+        <metadata id="mm_source_date" name="Source__Date" type="date">
+          <value>2022-10-12 11:11:50</value>
+        </metadata>
+        <metadata id="mm_segments" name="Segments" type="text">
+          <value>1</value>
+        </metadata>
+        <metadata id="fm_source_path" name="Source__Path" type="text">
+          <value>https://twitter.com/RyanBJackson/status</value>
+        </metadata>
+        <metadata id="fm_source_folder" name="Source__Folder" type="text">
+          <value>status</value>
+        </metadata>
+        <metadata id="fm_Source_Relative_Path" name="Source__Relative__Path" type="text">
+          <value>https://twitter.com/RyanBJackson/status</value>
+        </metadata>
+        <metadata id="mm_umid" name="Umid" type="text">
+          <value>060A2B340101010501010D8013000000C754C45188599383793AAC82FF7F2372</value>
+        </metadata>
+        <metadata id="mm_device" name="Device" type="text">
+          <value/>
+        </metadata>
+        <metadata id="mm_lens" name="Lens" type="text">
+          <value/>
+        </metadata>
+        <metadata id="mm_tc_start" name="TC__Start" type="text">
+          <value>00;00;00;00</value>
+        </metadata>
+        <metadata id="mm_streams" name="Streams" type="text">
+          <value>V-A2</value>
+        </metadata>
+        <metadata id="mm_container" name="Container" type="text">
+          <value>MP4</value>
+        </metadata>
+        <metadata id="mm_fps" name="fps" type="text">
+          <value>59.94</value>
+        </metadata>
+        <metadata id="mm_video" name="Video" type="text">
+          <value>H264 (High@L4) - 4:2:0 - 1280x720 - 16:9 - 60000/1001fps (VFR) - PROG</value>
+        </metadata>
+        <metadata id="mm_audio" name="Audio" type="text">
+          <value>AAC - 44100Hz - 2 channels</value>
+        </metadata>
+        <metadata id="mm_duration" name="Duration" type="text">
+          <value>00;00;11;16</value>
+        </metadata>
+        <metadata id="mm_av_type" name="AV__Type" type="text">
+          <value>VIDEO</value>
+        </metadata>
+        <metadata id="sm_source_path_as_path" name="Source__Path__as__Path" type="path">
+          <value>https://twitter.com/RyanBJackson/status</value>
+        </metadata>
+        <metadata id="sm_source_relative_path_as_path" name="Source__Relative__Path__as__Path" type="path">
+          <value>https://twitter.com/RyanBJackson/status</value>
+        </metadata>
+      </metadatas>
+    </source>
+  </sources>
+  <targets>
+    <target id="a31c4386-75ad-4506-afc1-e3f9e9d8bb29" name="060A2B340101010501010D8013000000C754C45188599383793AAC82FF7F2372" uri="/060A2B340101010501010D8013000000C754C45188599383793AAC82FF7F2372.xml">
+      <id>a31c4386-75ad-4506-afc1-e3f9e9d8bb29</id>
+      <name>060A2B340101010501010D8013000000C754C45188599383793AAC82FF7F2372</name>
+      <uri>/060A2B340101010501010D8013000000C754C45188599383793AAC82FF7F2372.xml</uri>
+      <publicurl/>
+      <provider>aws-s3</provider>
+      <connector>connector_aws-s3_ad5daf71-14ee-495f-8cb5-1046ff3ed46e</connector>
+      <assetType>metadata file</assetType>
+      <mediaType>clip</mediaType>
+      <media>
+        <umid/>
+        <uri>060A2B340101010501010D8013000000C754C45188599383793AAC82FF7F2372.mp4</uri>
+        <publicurl/>
+        <creationDate/>
+        <provider>aws-s3</provider>
+        <connector/>
+        <content>audio video</content>
+        <container>mp4</container>
+        <wrappingMode/>
+        <tracks>V-A2</tracks>
+        <format>Reuters MP4</format>
+        <frameRate>25/1</frameRate>
+        <start>00:00:00:00</start>
+        <recrunStart/>
+        <freerunStart/>
+        <duration_frames>282</duration_frames>
+        <streams>
+          <stream type="picture">
+            <segments>
+              <segment>
+                <url>060A2B340101010501010D8013000000C754C45188599383793AAC82FF7F2372.mp4</url>
+                <streamIndex>0</streamIndex>
+                <start_s>0</start_s>
+                <duration_s>11.277944611277945</duration_s>
+                <essence>
+                  <codec>H264</codec>
+                  <frameRate>25/1</frameRate>
+                  <scanning>prog</scanning>
+                  <bitRateMode>Constant</bitRateMode>
+                  <bitRate>10M</bitRate>
+                  <width>1920</width>
+                  <height>1080</height>
+                  <aspectRatio>16:9</aspectRatio>
+                  <colorSpace>YUV</colorSpace>
+                  <chromaSubsampling>4:2:0</chromaSubsampling>
+                  <bitDepth>8</bitDepth>
+                </essence>
+              </segment>
+            </segments>
+          </stream>
+          <stream type="sound">
+            <segments>
+              <segment>
+                <url>060A2B340101010501010D8013000000C754C45188599383793AAC82FF7F2372.mp4</url>
+                <streamIndex>1</streamIndex>
+                <start_s>0</start_s>
+                <duration_s>11.277944611277945</duration_s>
+                <essence>
+                  <codec>AAC</codec>
+                  <channels>2</channels>
+                  <samplingRate>48000</samplingRate>
+                  <bitrateMode>Constant</bitrateMode>
+                  <bitrate>128k</bitrate>
+                </essence>
+              </segment>
+            </segments>
+          </stream>
+        </streams>
+      </media>
+      <metadatas>
+        <metadata id="fileSystem_name" name="Name" type="text">
+          <value>060A2B340101010501010D8013000000C754C45188599383793AAC82FF7F2372</value>
+        </metadata>
+        <metadata id="im_ingest_date" name="Ingest date" type="date">
+          <value>1665577577088</value>
+        </metadata>
+        <metadata id="im_workflow_id" name="Workflow ID" type="static">
+          <value>036d4924-74f2-438d-912f-88553764edd2</value>
+        </metadata>
+        <metadata id="user_name" name="User name" type="text">
+          <value>rob.lang</value>
+        </metadata>
+        <metadata id="user_email" name="User email" type="text">
+          <value/>
+        </metadata>
+      </metadatas>
+      <sources>
+        <source id="2c0866a4-2305-42e5-b852-15bcc67dfc8f" start_frames="" duration_frames=""/>
+      </sources>
+    </target>
+  </targets>
+</WoodyIN2IT>
