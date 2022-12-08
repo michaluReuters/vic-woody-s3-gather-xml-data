@@ -1,16 +1,15 @@
-import json
+import os
 
 from xml_handler import *
 
 
-def handler(event):
+def lambda_handler(event, context):
 
-    workflow = handler("workflow", "./test_input.xml")
-    print(json.dumps(
-        workflow[0],
-        sort_keys=True,
-        indent=4,
-        separators=(',', ': ')
-    ))
-    print("=============")
-
+    content = event["Records"][0]["Sns"]["RequestData"]
+    with open("/tmp/tmpFile.xml", "w") as file:
+        file.write(content)
+    with open("/tmp/tmpFile.xml", "r"):
+        workflows = {"sources": handler("sources", "/tmp/tmpFile.xml")}
+        result = [workflows]
+    os.system("rm /tmp/tmpFile.xml")
+    return result
