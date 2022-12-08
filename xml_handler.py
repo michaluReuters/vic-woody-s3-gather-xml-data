@@ -19,7 +19,7 @@ def get_inner_data(tags):
                 pass
         elif len(tag.childNodes) == 1:
             if isinstance(tag.childNodes[0], Element):
-                data[tag.childNodes[0].tagName] = get_inner_data(tag.childNodes[0])
+                data[tag.childNodes[0].tagName] = get_inner_data(tag.childNodes)
             elif isinstance(tag.childNodes[0], Text):
                 if "\n" in tag.childNodes[0].data:
                     pass
