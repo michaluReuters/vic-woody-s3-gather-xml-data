@@ -17,18 +17,13 @@ def get_inner_data(tags):
                 return tag.data
             else:
                 pass
-        elif len(tag.childNodes) == 1:
-            if isinstance(tag.childNodes[0], Element):
-                data[tag.childNodes[0].tagName] = get_inner_data(tag.childNodes)
-            elif isinstance(tag.childNodes[0], Text):
-                if "\n" in tag.childNodes[0].data:
-                    pass
-                else:
-                    data[tag.tagName] = tag.childNodes[0].data
-        elif len(tag.childNodes) > 1:
+
+        elif len(tag.childNodes) >= 1:
             for node in tag.childNodes:
                 if isinstance(node, Text) and "\n" in node.data:
                     pass
+                elif isinstance(node, Text) and "\n" not in node.data:
+                    data[tag.tagName] = tag.childNodes[0].data
                 else:
                     if node.tagName in data.keys():
                         data[f"{node.tagName}_{counter}"] = get_inner_data(node.childNodes)
