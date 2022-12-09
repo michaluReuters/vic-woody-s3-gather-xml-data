@@ -5,15 +5,15 @@ from xml_handler import *
 
 def lambda_handler(event, context):
 
-    # content = event["Records"][0]["Sns"]["RequestData"]
-    content = "<workflows><workflow><name>John</name></workflow><metadata><value>Test_1</value></metadata></workflows>"
+    content = event["Records"][0]["Sns"]["RequestData"]
     with open("/tmp/tmpFile.xml", "w") as file:
         file.write(content)
     with open("/tmp/tmpFile.xml", "r"):
-        workflows = {"workflow": handler("workflow", "./test_input.xml")}
-        result = [workflows]
+        workflows = handler("workflow", "/tmp/tmpFile.xml")
+        sources = handler("sources", "/tmp/tmpFile.xml")
+        result = {
+            "workflow": workflows,
+            "sources": sources
+        }
     os.system("rm /tmp/tmpFile.xml")
     return result
-
-if __name__ == '__main__':
-    print(lambda_handler("", ""))
