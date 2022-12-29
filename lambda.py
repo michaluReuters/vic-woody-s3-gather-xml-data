@@ -1,3 +1,4 @@
+import json
 import os
 import boto3
 from botocore.exceptions import ClientError
@@ -23,8 +24,8 @@ def lambda_handler(event, context):
     workflows = handler("workflow", file_path)
     sources = handler("sources", file_path)
 
-    data["workflow"] = workflows
-    data["sources"] = sources
+    data["workflow"] = workflows.get('workflow')
+    data["sources"] = sources.get('sources')
 
     os.system(f"rm /tmp/{file_name_sns}")
     return data

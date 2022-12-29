@@ -18,24 +18,35 @@ def get_inner_data(tags):
             else:
                 pass
 
-        elif len(tag.childNodes) >= 1:
+        elif len(tag.childNodes) == 1:
+            if not isinstance(tag, Text):
+                data[tag.tagName] = get_inner_data(tag.childNodes)
+
+        elif len(tag.childNodes) > 1:
+            inner = {}
             for node in tag.childNodes:
                 if isinstance(node, Text) and "\n" in node.data:
                     pass
                 elif isinstance(node, Text) and "\n" not in node.data:
                     data[tag.tagName] = tag.childNodes[0].data
                 else:
-                    if node.tagName in data.keys():
+                    if node.tagName == 'metadata':
+                        inner[node.getAttribute('name')] = get_inner_data(node.childNodes).get('value')
+                    elif node.tagName in data.keys():
                         data[f"{node.tagName}_{counter}"] = get_inner_data(node.childNodes)
                         counter += 1
                     else:
-                        data[node.tagName] = get_inner_data(node.childNodes)
-
+                        inner[node.tagName] = get_inner_data(node.childNodes)
+            data[tag.tagName] = inner
     return data
+
+
+def get_main_tag_data(tags):
+    return [get_inner_data([tag]) for tag in tags]
 
 
 def handler(tag_name: str, file_path) -> {}:
     dom = xml.dom.minidom.parse(file_path)
     tags = dom.getElementsByTagName(tag_name)
-    data = get_inner_data(tags)
+    data = get_main_tag_data(tags)[0]
     return data
