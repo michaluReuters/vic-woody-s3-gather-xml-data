@@ -31,7 +31,7 @@ def get_inner_data(tags):
                     data[tag.tagName] = tag.childNodes[0].data
                 else:
                     if node.tagName == 'metadata':
-                        inner[node.getAttribute('name')] = get_inner_data(node.childNodes).get('value')
+                        inner[node.getAttribute('id')] = get_inner_data(node.childNodes).get('value')
                     elif node.tagName in data.keys():
                         data[f"{node.tagName}_{counter}"] = get_inner_data(node.childNodes)
                         counter += 1
