@@ -15,11 +15,10 @@ def lambda_handler(event, context):
     data = {}
     file_name_sns = event_dict["body"]["metadata"].get("name")
     hive_material_id = event_dict["body"]["metadata"].get("id")
-    s3 = boto3.client("s3")
     data["file_name"] = file_name_sns
     data["id"] = hive_material_id
 
-    if not file_in_s3_bucket(file_name_sns, s3):
+    if not file_in_s3_bucket(file_name_sns):
         logging.info(f"Could not find resource in s3 for: {file_name_sns}.xml")
         print(f"Could not find resource in s3 for: {file_name_sns}")
         data["workflows"] = None
