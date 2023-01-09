@@ -8,14 +8,12 @@ import requests
 
 
 def lambda_handler(event, context):
-
     event_dict = json.loads(event["Records"][0]["Sns"]["Message"])
     logging.info(f"Incoming event to be processed: {event_dict}")
     print(f"Incoming event to be processed: {event_dict}")
 
     data = {}
-    # file_name_sns = event_dict["body"]["metadata"].get("name")
-    file_name_sns = "060A2B340101010501010D80130000002C290782BCC7CDBC7B5B5AE2504224B6"
+    file_name_sns = event_dict["body"]["metadata"].get("name")
     hive_material_id = event_dict["body"]["metadata"].get("id")
     s3 = boto3.client("s3")
     data["file_name"] = file_name_sns
@@ -41,37 +39,42 @@ def lambda_handler(event, context):
 
     send_data_to_hive(prepare_data(data))
 
-def filter_usermetadata(pair):
+
+def filter_user_metadata(pair):
+    """
+    Function to filter if pair contains wanted key
+    :param pair: key value pair from parsed data dictionary
+    :return: boolean status
+    """
     wanted_key = "usermetadata"
     key, value = pair
     if wanted_key in str(key):
         return True
     else:
         return False
+
+
 def prepare_data(data):
+    """
+    Prepares metadata according to Hive Api spec
+    :param data: parsed data from s3 xml file
+    :return: prepared metadata for sending
+    """
+
     logging.info("Preparing parsed data...")
     print("Preparing parsed data...")
     id_data = data["id"]
-    # name = data["sources"]["source"]["metadatas"].get("mm_source_name")
-    name = "CHANGED name"
-    # custom_metadata = {
-    #     "social_source_uri_CHAR": data["sources"]["source"]["metadatas"].get("social_source_uri"),
-    #     "social_author_CHAR": data["sources"]["source"]["metadatas"].get("social_author"),
-    #     "social_network_CHAR": data["sources"]["source"]["metadatas"].get("social_network"),
-    #     "social_description_CHAR": data["sources"]["source"]["metadatas"].get("social_description"),
-    #     "social_publish_date_CHAR": data["sources"]["source"]["metadatas"].get("mm_source_date"),
-    #     "social_user_CHAR": data["workflow"]["user"]["name"],
-    # }
+    name = data["sources"]["source"]["metadatas"].get("mm_source_name")
     custom_metadata = {
-        "social_source_uri_CHAR": "TEST",
-        "social_author_CHAR": "TEST",
-        "social_network_CHAR": "TEST",
-        "social_description_CHAR": "TEST",
-        "social_publish_date_CHAR": "TEST",
-        "social_user_CHAR": "TEST",
+        "social_source_uri_CHAR": data["sources"]["source"]["metadatas"].get("social_source_uri"),
+        "social_author_CHAR": data["sources"]["source"]["metadatas"].get("social_author"),
+        "social_network_CHAR": data["sources"]["source"]["metadatas"].get("social_network"),
+        "social_description_CHAR": data["sources"]["source"]["metadatas"].get("social_description"),
+        "social_publish_date_CHAR": data["sources"]["source"]["metadatas"].get("mm_source_date"),
+        "social_user_CHAR": data["workflow"]["user"]["name"],
     }
 
-    filtered_data = dict(filter(filter_usermetadata, data["sources"]["source"]["metadatas"].items()))
+    filtered_data = dict(filter(filter_user_metadata, data["sources"]["source"]["metadatas"].items()))
     custom_metadata["social_user_metadata_CHAR"] = list(filtered_data.values())[0]
     result = {
         "id": id_data,
@@ -84,6 +87,10 @@ def prepare_data(data):
 
 
 def authenticate_for_hive():
+    """
+    Basic authentication for Hive application
+    :return: Valid Token to authenticate
+    """
     try:
         logging.info("Sending request to authenticate")
         print("Sending request to authenticate")
@@ -103,8 +110,12 @@ def authenticate_for_hive():
         print(f"There has been an error with Authentication! Error is: {exc}")
 
 
-
-def send_data_to_hive(data):
+def send_data_to_hive(metadata):
+    """
+    Sends prepared metadata to hive api
+    :param metadata: Prepared data according to api spec
+    :return: None
+    """
     try:
         auth_resp = authenticate_for_hive()
         auth_token = auth_resp["data"]["token"]
@@ -116,25 +127,24 @@ def send_data_to_hive(data):
             'Authorization': f"Bearer {str(auth_token)}"
         }
 
-        r = requests.put('http://app.sobeyhive.int:6446/api/v2/metadata/material?force=true', headers=headers, json=data)
+        r = requests.put('http://app.sobeyhive.int:6446/api/v2/metadata/material?force=true', headers=headers,
+                         json=metadata)
         print(r.json())
     except Exception as exc:
         logging.error(f"There has been an error with Updating data to Hive! Error is: {exc}")
         print(f"There has been an error with Updating data to Hive! Error is: {exc}")
 
 
-def file_in_s3_bucket(file_name_sns, s3):
+def file_in_s3_bucket(file_name_sns):
+    """
+    Checks if specified file exists in s3 bucket
+    :param file_name_sns: file that needs to be checked
+    :return: boolean status
+    """
+
     s3_bucket = boto3.resource("s3")
     try:
         s3_bucket.Object("sh-woody-poc-xml", f"{file_name_sns}.xml").load()
     except ClientError:
-
-        my_bucket = s3_bucket.Bucket("sh-woody-poc-xml")
-        for my_bucket_object in my_bucket.objects.all():
-            print(my_bucket_object.key)
         return False
     return True
-
-
-if __name__ == '__main__':
-    print(authenticate_for_hive())

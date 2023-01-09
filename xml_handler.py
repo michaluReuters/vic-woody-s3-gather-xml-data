@@ -3,12 +3,12 @@ from xml.dom.minidom import *
 
 
 def get_inner_data(tags):
-    '''
+    """
     Function to grab inner data from xml tag. Function works on recursion to get
     content from each tag.
     :param tags: tags that are going to be processed
     :return: dictionary of content inside each tag
-    '''
+    """
     data = {}
     counter = 0
     for tag in tags:
