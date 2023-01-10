@@ -1,5 +1,4 @@
 import json
-import os
 import boto3
 from botocore.exceptions import ClientError
 from xml_handler import handler
@@ -25,16 +24,16 @@ def lambda_handler(event, context):
         data["sources"] = None
         return data
 
-    s3resource = boto3.resource("s3")
-    file_path = f"/tmp/{file_name_sns}.xml"
-    s3resource.Bucket("sh-woody-poc-xml").download_file(f"{file_name_sns}.xml", file_path)
-    workflows = handler("workflow", file_path)
-    sources = handler("sources", file_path)
+    s3_client = boto3.client("s3")
+    object_key = f"{file_name_sns}.xml"
+    file_content = s3_client.get_object(
+        Bucket="sh-woody-poc-xml", Key=object_key)["Body"].read().decode("UTF-8")
+
+    workflows = handler("workflow", file_content)
+    sources = handler("sources", file_content)
 
     data["workflow"] = workflows.get('workflow')
     data["sources"] = sources.get('sources')
-
-    os.system(f"rm /tmp/{file_name_sns}.xml")
 
     send_data_to_hive(prepare_data(data))
 
@@ -75,6 +74,7 @@ def prepare_data(data):
 
     filtered_data = dict(filter(filter_user_metadata, data["sources"]["source"]["metadatas"].items()))
     custom_metadata["social_user_metadata_CHAR"] = list(filtered_data.values())[0]
+
     result = {
         "id": id_data,
         "name": name,

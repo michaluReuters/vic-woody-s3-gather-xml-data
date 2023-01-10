@@ -45,8 +45,8 @@ def get_main_tag_data(tags):
     return [get_inner_data([tag]) for tag in tags]
 
 
-def handler(tag_name: str, file_path) -> {}:
-    dom = xml.dom.minidom.parse(file_path)
+def handler(tag_name: str, file_content) -> {}:
+    dom = xml.dom.minidom.parseString(file_content)
     tags = dom.getElementsByTagName(tag_name)
     data = get_main_tag_data(tags)[0]
     return data
