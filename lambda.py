@@ -28,12 +28,13 @@ def lambda_handler(event, context):
     object_key = f"{file_name_sns}.xml"
     file_content = s3_client.get_object(
         Bucket="sh-woody-poc-xml", Key=object_key)["Body"].read().decode("UTF-8")
+    ready_file_content = "".join(line.strip() for line in file_content.splitlines())
 
-    workflows = handler("workflow", file_content)
-    sources = handler("sources", file_content)
+    workflows = handler("workflow", ready_file_content)
+    sources = handler("metadatas", ready_file_content)
 
-    data["workflow"] = workflows.get('workflow')
-    data["sources"] = sources.get('sources')
+    data["workflow"] = workflows.get("workflow")
+    data["metadatas"] = sources.get("metadatas")
 
     send_data_to_hive(prepare_data(data))
 
@@ -62,17 +63,17 @@ def prepare_data(data):
     logging.info("Preparing parsed data...")
     print("Preparing parsed data...")
     id_data = data["id"]
-    name = data["sources"]["source"]["metadatas"].get("mm_source_name")
+    name = data["metadatas"].get("mm_source_name")
     custom_metadata = {
-        "social_source_uri_CHAR": data["sources"]["source"]["metadatas"].get("social_source_uri"),
-        "social_author_CHAR": data["sources"]["source"]["metadatas"].get("social_author"),
-        "social_network_CHAR": data["sources"]["source"]["metadatas"].get("social_network"),
-        "social_description_CHAR": data["sources"]["source"]["metadatas"].get("social_description"),
-        "social_publish_date_CHAR": data["sources"]["source"]["metadatas"].get("mm_source_date"),
+        "social_source_uri_CHAR": data["metadatas"].get("social_source_uri"),
+        "social_author_CHAR": data["metadatas"].get("social_author"),
+        "social_network_CHAR": data["metadatas"].get("social_network"),
+        "social_description_CHAR": data["metadatas"].get("social_description"),
+        "social_publish_date_CHAR": data["metadatas"].get("mm_source_date"),
         "social_user_CHAR": data["workflow"]["user"]["name"],
     }
 
-    filtered_data = dict(filter(filter_user_metadata, data["sources"]["source"]["metadatas"].items()))
+    filtered_data = dict(filter(filter_user_metadata, data["metadatas"].items()))
     custom_metadata["social_user_metadata_CHAR"] = list(filtered_data.values())[0]
 
     result = {
