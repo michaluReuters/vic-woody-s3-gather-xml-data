@@ -1,7 +1,7 @@
 import unittest
+
 from unittest.mock import MagicMock, patch
 from botocore.exceptions import ClientError
-
 from domain.utils.utils import file_in_s3_bucket, remove_special_characters, find_dict_by_id
 
 

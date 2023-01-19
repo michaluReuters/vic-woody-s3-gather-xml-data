@@ -1,6 +1,5 @@
 import json
 import logging
-
 import boto3
 
 from domain.aws_actions.aws_actions import send_data_to_hive, prepare_data
