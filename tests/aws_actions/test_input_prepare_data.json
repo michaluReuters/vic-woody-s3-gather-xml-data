@@ -1,0 +1,112 @@
+[
+  [
+    {
+      "id": 1,
+      "metadatas": {
+        "metadata": [
+          {
+            "@id": "mm_source_name",
+            "value": "Test name 1"
+          },
+          {
+            "@id": "social_source_uri",
+            "value": "https://test1.com"
+          },
+          {
+            "@id": "social_author",
+            "value": "Test Author 1"
+          },
+          {
+            "@id": "social_network",
+            "value": "Test Network 1"
+          },
+          {
+            "@id": "social_description",
+            "value": "Test description 1"
+          },
+          {
+            "@id": "mm_source_date",
+            "value": "2022-01-01"
+          },
+          {
+            "@id": "usermetadata",
+            "value": "Test usermetadata 1"
+          }
+        ]
+      },
+      "workflow": {
+        "user": {
+          "name": "Test User 1"
+        }
+      }
+    },
+    {
+      "id": 1,
+      "name": "Test name 1",
+      "customMetadata": {
+        "social_source_uri_CHAR": "https://test1.com",
+        "social_author_CHAR": "Test Author 1",
+        "social_network_CHAR": "Test Network 1",
+        "social_description_CHAR": "Test description 1",
+        "social_publish_date_CHAR": "2022-01-01",
+        "social_user_CHAR": "Test User 1",
+        "social_user_metadata_CHAR": "Test usermetadata 1"
+      }
+    }
+  ],
+    [
+    {
+      "id": 2,
+      "metadatas": {
+        "metadata": [
+          {
+            "@id": "mm_source_name",
+            "value": "Test name 2"
+          },
+          {
+            "@id": "social_source_uri",
+            "value": "https://test1.com"
+          },
+          {
+            "@id": "social_author",
+            "value": "Test Author 2"
+          },
+          {
+            "@id": "social_network",
+            "value": "Test Network 2"
+          },
+          {
+            "@id": "social_description",
+            "value": "Test description 2"
+          },
+          {
+            "@id": "mm_source_date",
+            "value": "2022-01-01"
+          },
+          {
+            "@id": "usermetadata",
+            "value": "Test usermetadata 2"
+          }
+        ]
+      },
+      "workflow": {
+        "user": {
+          "name": "Test User 2"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "name": "Test name 2",
+      "customMetadata": {
+        "social_source_uri_CHAR": "https://test1.com",
+        "social_author_CHAR": "Test Author 2",
+        "social_network_CHAR": "Test Network 2",
+        "social_description_CHAR": "Test description 2",
+        "social_publish_date_CHAR": "2022-01-01",
+        "social_user_CHAR": "Test User 2",
+        "social_user_metadata_CHAR": "Test usermetadata 2"
+      }
+    }
+  ]
+]
