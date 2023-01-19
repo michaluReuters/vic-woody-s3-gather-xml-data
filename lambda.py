@@ -2,8 +2,8 @@ import json
 import logging
 import boto3
 
-from domain.aws_actions.aws_actions import send_data_to_hive, prepare_data
-from domain.utils.utils import file_in_s3_bucket
+from domain.aws_actions.aws_actions import file_in_s3_bucket, send_data_to_hive
+from domain.utils.utils import prepare_data
 from domain.utils.xml_handler import *
 
 

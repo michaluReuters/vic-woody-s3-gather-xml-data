@@ -1,23 +1,45 @@
-import boto3
-from botocore.exceptions import ClientError
+import logging
 
 
-def file_in_s3_bucket(file_name_sns) -> bool:
+def prepare_data(data):
     """
-    Checks if specified file exists in s3 bucket
+    Prepares metadata according to Hive Api spec
 
     :param:
-        file_name_sns: file that needs to be checked
+        data: parsed data from s3 xml file
 
     :return:
-        bool: status
+        prepared metadata for sending
     """
-    s3_bucket = boto3.resource("s3")
-    try:
-        s3_bucket.Object("sh-woody-poc-xml", f"{file_name_sns}.xml").load()
-    except ClientError:
-        return False
-    return True
+
+    logging.info("Preparing parsed data...")
+    print("Preparing parsed data...")
+    id_data = data["id"]
+    metadata = data["metadatas"]["metadata"]
+    name = remove_special_characters(
+        find_dict_by_id(metadata, "mm_source_name")["value"]
+    )
+
+    required_fields = [
+        "social_source_uri",
+        "social_author",
+        "social_network",
+        "social_description",
+    ]
+
+    custom_metadata = {f"{key}_CHAR": find_dict_by_id(metadata, key)["value"] for key in required_fields}
+    custom_metadata["social_publish_date_CHAR"] = find_dict_by_id(metadata, "mm_source_date")["value"]
+    custom_metadata["social_user_CHAR"] = data["workflow"]["user"]["name"]
+    custom_metadata["social_user_metadata_CHAR"] = list(filter(lambda x: "usermetadata" in x["@id"], metadata))[0][
+        "value"]
+    result = {
+        "id": id_data,
+        "name": name,
+        "customMetadata": custom_metadata
+    }
+    logging.info(f"Parsed data prepared: {custom_metadata}\n Returning result: {result}")
+    print(f"Parsed data prepared: {custom_metadata}\n Returning result: {result}")
+    return result
 
 
 def remove_special_characters(phrase: str) -> str:

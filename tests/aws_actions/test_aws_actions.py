@@ -2,26 +2,19 @@ import os
 import unittest
 import json
 
-from parameterized import parameterized
-from unittest.mock import patch
-from domain.aws_actions.aws_actions import prepare_data, authenticate_for_hive, send_data_to_hive
+from unittest.mock import MagicMock, patch
+from botocore.exceptions import ClientError
+from domain.aws_actions.aws_actions import authenticate_for_hive, send_data_to_hive, file_in_s3_bucket
 
-with open("./test_input_prepare_data.json", "r") as file:
+with open("../utils/test_input_prepare_data.json", "r") as file:
     test_cases_prepare_data = json.load(file)
-
-
-class TestPrepareData(unittest.TestCase):
-    @parameterized.expand(test_cases_prepare_data)
-    def test_prepare_data(self, data, expected_output):
-        result = prepare_data(data)
-        self.assertEqual(result, expected_output)
 
 
 class TestAuthenticateForHive(unittest.TestCase):
     @patch("domain.aws_actions.aws_actions.get_credentials_to_authenticate")
     @patch.object(os.environ, "get", return_value="http://test_url.com")
     @patch("requests.post")
-    def test_authenticate_for_hive_success(self, mock_post,mock_get, mock_get_credentials):
+    def test_authenticate_for_hive_success(self, mock_post, mock_get, mock_get_credentials):
         mock_get_credentials.return_value = ("username", "password")
         mock_post.return_value.json.return_value = {"token": "valid_token"}
         mock_post.return_value.ok = True
@@ -90,6 +83,34 @@ class TestSendDataToHive(unittest.TestCase):
         metadata = {"key1": "value1", "key2": "value2"}
         response = send_data_to_hive(metadata)
         self.assertEqual(response, None)
+
+
+class TestFileInS3Bucket(unittest.TestCase):
+    @patch("boto3.resource")
+    def test_file_exists(self, mock_boto3_resource):
+        mock_object = MagicMock()
+        mock_bucket = MagicMock()
+        mock_bucket.Object.return_value = mock_object
+        mock_boto3_resource.return_value = mock_bucket
+
+        result = file_in_s3_bucket("test_file")
+
+        mock_boto3_resource.assert_called_once_with("s3")
+        mock_bucket.Object.assert_called_once_with("sh-woody-poc-xml", "test_file.xml")
+        mock_object.load.assert_called_once()
+        self.assertTrue(result)
+
+    @patch("boto3.resource")
+    def test_file_not_exists(self, mock_boto3_resource):
+        mock_bucket = MagicMock()
+        mock_bucket.Object.side_effect = ClientError({"Error": {"Code": "404"}}, "load")
+        mock_boto3_resource.return_value = mock_bucket
+
+        result = file_in_s3_bucket("test_file")
+
+        mock_boto3_resource.assert_called_once_with("s3")
+        mock_bucket.Object.assert_called_once_with("sh-woody-poc-xml", "test_file.xml")
+        self.assertFalse(result)
 
 
 if __name__ == "__main__":
