@@ -1,3 +1,4 @@
+import os
 import unittest
 import json
 
@@ -18,8 +19,9 @@ class TestPrepareData(unittest.TestCase):
 
 class TestAuthenticateForHive(unittest.TestCase):
     @patch("domain.aws_actions.aws_actions.get_credentials_to_authenticate")
+    @patch.object(os.environ, "get", return_value="http://test_url.com")
     @patch("requests.post")
-    def test_authenticate_for_hive_success(self, mock_post, mock_get_credentials):
+    def test_authenticate_for_hive_success(self, mock_post,mock_get, mock_get_credentials):
         mock_get_credentials.return_value = ("username", "password")
         mock_post.return_value.json.return_value = {"token": "valid_token"}
         mock_post.return_value.ok = True
@@ -27,13 +29,14 @@ class TestAuthenticateForHive(unittest.TestCase):
         result = authenticate_for_hive()
 
         self.assertEqual(result, {"token": "valid_token"})
-        mock_post.assert_called_once_with("http://app.sobeyhive.int:6446/api/v2/authentication",
+        mock_post.assert_called_once_with("http://test_url.com",
                                           headers={"Content-Type": "application/json-patch+json"},
                                           json={"loginName": "username", "password": "password"})
 
     @patch("domain.aws_actions.aws_actions.get_credentials_to_authenticate")
+    @patch.object(os.environ, "get", return_value="http://test_url.com")
     @patch("requests.post")
-    def test_authenticate_for_hive_failure(self, mock_post, mock_get_credentials):
+    def test_authenticate_for_hive_failure(self, mock_post, mock_get, mock_get_credentials):
         mock_get_credentials.return_value = ("username", "password")
         mock_post.return_value.json.return_value = {"error": "Invalid credentials"}
         mock_post.return_value.ok = False
@@ -41,20 +44,21 @@ class TestAuthenticateForHive(unittest.TestCase):
         result = authenticate_for_hive()
 
         self.assertEqual(result, {"error": "Invalid credentials"})
-        mock_post.assert_called_once_with("http://app.sobeyhive.int:6446/api/v2/authentication",
+        mock_post.assert_called_once_with("http://test_url.com",
                                           headers={"Content-Type": "application/json-patch+json"},
                                           json={"loginName": "username", "password": "password"})
 
     @patch("domain.aws_actions.aws_actions.get_credentials_to_authenticate")
+    @patch.object(os.environ, "get", return_value="http://test_url.com")
     @patch("requests.post")
-    def test_authenticate_for_hive_exception(self, mock_post, mock_get_credentials):
+    def test_authenticate_for_hive_exception(self, mock_post, mock_get, mock_get_credentials):
         mock_get_credentials.return_value = ("username", "password")
         mock_post.side_effect = Exception("Error connecting to the server")
 
         result = authenticate_for_hive()
 
         self.assertEqual(result, None)
-        mock_post.assert_called_once_with("http://app.sobeyhive.int:6446/api/v2/authentication",
+        mock_post.assert_called_once_with("http://test_url.com",
                                           headers={"Content-Type": "application/json-patch+json"},
                                           json={"loginName": "username", "password": "password"})
         mock_get_credentials.assert_called_once()
