@@ -49,8 +49,8 @@ def find_dict_by_id(list_dict, id_val) -> {}:
     """
     id_dict = {}
     for d in list_dict:
-        if '@id' in d:
-            id_dict[d['@id']] = d
+        if "@id" in d:
+            id_dict[d["@id"]] = d
     if id_val in id_dict:
         return id_dict[id_val]
     return None
