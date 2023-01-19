@@ -37,8 +37,3 @@ def lambda_handler(event, context):
     data["metadatas"] = sources["source"]["metadatas"]
 
     send_data_to_hive(prepare_data(data))
-
-
-
-
-
