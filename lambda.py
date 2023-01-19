@@ -38,4 +38,4 @@ def lambda_handler(event, context):
     data["workflow"] = workflows
     data["metadatas"] = sources["source"]["metadatas"]
 
-    send_data_to_hive(prepare_data(data))
+    return send_data_to_hive(prepare_data(data))
