@@ -18,8 +18,9 @@ def file_in_s3_bucket(file_name_sns) -> bool:
         bool: status
     """
     s3_bucket = boto3.resource("s3")
+    s3_bucket_name = os.environ.get("S3_BUCKET_NAME")
     try:
-        s3_bucket.Object("sh-woody-poc-xml", f"{file_name_sns}.xml").load()
+        s3_bucket.Object(s3_bucket_name, f"{file_name_sns}.xml").load()
     except ClientError:
         return False
     return True

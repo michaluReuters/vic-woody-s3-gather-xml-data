@@ -1,5 +1,7 @@
 import json
 import logging
+import os
+
 import boto3
 
 from domain.aws_actions.aws_actions import file_in_s3_bucket, send_data_to_hive
@@ -27,8 +29,9 @@ def lambda_handler(event, context):
 
     s3_client = boto3.client("s3")
     object_key = f"{file_name_sns}.xml"
+    bucket_name = os.environ.get("S3_BUCKET_NAME")
     file_content = s3_client.get_object(
-        Bucket="sh-woody-poc-xml", Key=object_key)["Body"].read().decode("UTF-8")
+        Bucket=bucket_name, Key=object_key)["Body"].read().decode("UTF-8")
     ready_file_content = "".join(line.strip() for line in file_content.splitlines())
 
     workflows = find_specified_tag_in_xml(ready_file_content, "workflow")
