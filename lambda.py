@@ -1,7 +1,6 @@
 import json
 import logging
 import os
-
 import boto3
 
 from domain.aws_actions.aws_actions import file_in_s3_bucket, send_data_to_hive
