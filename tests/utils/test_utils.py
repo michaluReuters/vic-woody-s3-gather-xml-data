@@ -1,7 +1,6 @@
 import unittest
 
 from parameterized import parameterized
-
 from domain.utils.utils import remove_special_characters, find_dict_by_id, prepare_data
 from tests.aws_actions.test_aws_actions import test_cases_prepare_data
 
