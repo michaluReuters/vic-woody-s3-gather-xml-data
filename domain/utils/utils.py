@@ -1,4 +1,6 @@
-import logging
+from aws_lambda_powertools import Logger
+
+logger = Logger()
 
 
 def prepare_data(data):
@@ -12,8 +14,7 @@ def prepare_data(data):
         prepared metadata for sending
     """
 
-    logging.info("Preparing parsed data...")
-    print("Preparing parsed data...")
+    logger.info("Preparing parsed data...")
     id_data = data["id"]
     metadata = data["metadatas"]["metadata"]
     name = remove_special_characters(
@@ -37,8 +38,7 @@ def prepare_data(data):
         "name": name,
         "customMetadata": custom_metadata
     }
-    logging.info(f"Parsed data prepared: {custom_metadata}\n Returning result: {result}")
-    print(f"Parsed data prepared: {custom_metadata}\n Returning result: {result}")
+    logger.info(f"Parsed data prepared: {custom_metadata}\n Returning result: {result}")
     return result
 
 

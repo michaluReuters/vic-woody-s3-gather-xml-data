@@ -1,10 +1,12 @@
 import json
-import logging
 import os
 import boto3
 import requests
 
 from botocore.exceptions import ClientError
+from aws_lambda_powertools import Logger
+
+logger = Logger()
 
 
 def file_in_s3_bucket(file_name_sns) -> bool:
@@ -20,8 +22,11 @@ def file_in_s3_bucket(file_name_sns) -> bool:
     s3_bucket = boto3.resource("s3")
     s3_bucket_name = os.environ.get("S3_BUCKET_NAME")
     try:
+        logger.info(f"Looking for a file in bucket: {file_name_sns}")
         s3_bucket.Object(s3_bucket_name, f"{file_name_sns}.xml").load()
+        logger.info(f"File found in bucket!")
     except ClientError:
+        logger.error(f"File not found in bucket:{file_name_sns}")
         return False
     return True
 
@@ -52,8 +57,7 @@ def authenticate_for_hive() -> {}:
     credentials = get_credentials_to_authenticate()
 
     try:
-        logging.info("Sending request to authenticate")
-        print("Sending request to authenticate")
+        logger.info("Sending request to authenticate")
         headers = {
             "Content-Type": "application/json-patch+json",
         }
@@ -63,12 +67,10 @@ def authenticate_for_hive() -> {}:
         }
         url = os.environ.get("AUTHENTICATION_URL")
         r = requests.post(url, headers=headers, json=requests_body)
-        logging.info("Authentication succeed!")
-        print("Authentication succeed!")
+        logger.info("Authentication succeed!")
         return r.json()
     except Exception as exc:
-        logging.error(f"There has been an error with Authentication! Error is: {exc}")
-        print(f"There has been an error with Authentication! Error is: {exc}")
+        logger.error(f"There has been an error with Authentication! Error is: {exc}")
 
 
 def send_data_to_hive(metadata):
@@ -81,8 +83,7 @@ def send_data_to_hive(metadata):
     try:
         auth_resp = authenticate_for_hive()
         auth_token = auth_resp["data"]["token"]
-        logging.info(f"Trying to send data with token")
-        print(f"Trying to send data with token")
+        logger.info(f"Trying to send data with token")
 
         headers = {
             "Content-Type": "application/json-patch+json",
@@ -91,12 +92,10 @@ def send_data_to_hive(metadata):
         }
         url = os.environ.get("UPDATE_URL")
         requests.put(url, headers=headers, json=metadata)
-        logging.info(f"Request send with body: {metadata}")
-        print(f"Request send with body: {metadata}")
+        logger.info(f"Request send with body: {metadata}")
         return {
             "status": 200,
             "body": metadata
         }
     except Exception as exc:
-        logging.error(f"There has been an error with Updating data to Hive! Error is: {exc}")
-        print(f"There has been an error with Updating data to Hive! Error is: {exc}")
+        logger.error(f"There has been an error with Updating data to Hive! Error is: {exc}")

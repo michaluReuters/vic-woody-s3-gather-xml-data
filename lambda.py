@@ -1,17 +1,19 @@
 import json
-import logging
 import os
 import boto3
 
 from domain.aws_actions.aws_actions import file_in_s3_bucket, send_data_to_hive
 from domain.utils.utils import prepare_data
 from domain.utils.xml_handler import *
+from aws_lambda_powertools import Logger
+
+logger = Logger()
 
 
+@logger.inject_lambda_context(log_event=True)
 def lambda_handler(event, context):
     event_dict = json.loads(event["Records"][0]["Sns"]["Message"])
-    logging.info(f"Incoming event to be processed: {event_dict}")
-    print(f"Incoming event to be processed: {event_dict}")
+    logger.info(f"Incoming event to be processed: {event_dict}")
 
     data = {}
     file_name_sns = event_dict["body"]["metadata"].get("name")
@@ -20,8 +22,7 @@ def lambda_handler(event, context):
     data["id"] = hive_material_id
 
     if not file_in_s3_bucket(file_name_sns):
-        logging.info(f"Could not find resource in s3 for: {file_name_sns}.xml")
-        print(f"Could not find resource in s3 for: {file_name_sns}.xml")
+        logger.info(f"Could not find resource in s3 for: {file_name_sns}.xml")
         data["workflows"] = None
         data["sources"] = None
         return data
